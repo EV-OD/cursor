@@ -928,6 +928,21 @@ const createWindow = () => {
         log.info('Opening folder: ' + result)
         if (result && result.length > 0) {
             setFileSystem(new FileSystem())
+            const projectPathObj = store.get('projectPath')
+            if (
+                typeof projectPathObj === 'object' &&
+                projectPathObj !== null &&
+                'defaultFolder' in projectPathObj
+            ) {
+                const projectPath = projectPathObj.defaultFolder
+                if (typeof projectPath === 'string') {
+                    setupTerminal(main_window, projectPath)
+                } else {
+                    setupTerminal(main_window)
+                }
+            } else {
+                setupTerminal(main_window)
+            }
             return result[0]
         }
         return null
